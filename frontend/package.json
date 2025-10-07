@@ -1,0 +1,24 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^7.1.9",
+    "vite-plugin-solid": "^2.11.9"
+  },
+  "dependencies": {
+    "markmap-lib": "^0.18.12",
+    "markmap-view": "^0.18.12",
+    "socket.io-client": "^4.8.1",
+    "solid-js": "^1.9.9",
+    "vtt.js": "^0.13.0"
+  }
+}

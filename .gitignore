@@ -1,0 +1,38 @@
+# Python / Flask
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.venv
+instance/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# Node.js / Vite / SolidJS
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.DS_Store
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/pnpm-lock.yaml
+/frontend/.pnpm-debug.log*
+/frontend/.env
+/frontend/.env.local
+/frontend/.env.development.local
+/frontend/.env.test.local
+/frontend/.env.production.local
+
+# Project-specific files and folders
+config.json
+
+# Ignore all content in the data directory...
+data/*
+
+# ...but keep the .gitkeep file
+!data/.gitkeep

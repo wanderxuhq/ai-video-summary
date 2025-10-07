@@ -1,0 +1,8 @@
+{
+  "openai": {
+    "api_key": "sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "base_url": "https://api.openai.com/v1",
+    "proxy": null,
+    "model": "gpt-4-turbo"
+  }
+}
