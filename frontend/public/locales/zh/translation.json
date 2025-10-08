@@ -1,0 +1,33 @@
+{
+  "videoPlayer": {
+    "title": "视频播放器",
+    "noVideo": "未选择视频",
+    "play": "播放",
+    "pause": "暂停",
+    "hideSubtitles": "隐藏字幕",
+    "showSubtitles": "显示字幕"
+  },
+  "subtitles": {
+    "title": "字幕",
+    "uploadLabel": "上传视频:",
+    "messages": {
+      "uploading": "正在上传文件...",
+      "uploadFailed": "上传失败: {{error}}",
+      "uploadError": "上传出错: {{error}}",
+      "subtitlesLoadedRequestingSummary": "字幕加载完成，正在请求摘要...",
+      "subtitlesAndSummaryLoaded": "字幕与摘要加载成功！",
+      "summaryFailed": "获取摘要失败: {{error}}",
+      "summaryError": "请求摘要出错: {{error}}",
+      "processingError": "处理出错: {{message}}",
+      "checkingSubtitles": "正在检查现有字幕...",
+      "noSubtitlesFound": "未找到现有字幕，准备上传...",
+      "checkFailed": "检查失败: {{error}}",
+      "requestError": "请求出错: {{error}}",
+      "unknownError": "未知错误"
+    }
+  },
+  "summary": {
+    "title": "视频摘要",
+    "fallback": "视频处理完毕后，摘要内容将显示在此处。"
+  }
+}

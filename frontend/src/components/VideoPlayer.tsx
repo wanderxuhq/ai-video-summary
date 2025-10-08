@@ -1,5 +1,5 @@
 import { Component, Show, createSignal, createEffect, onCleanup, on } from 'solid-js';
-import { videoUrl, cues, Cue } from '../store'; // 1. 导入独立的 signals
+import { videoUrl, cues, Cue, t } from '../store'; // 1. 导入独立的 signals
 // @ts-ignore
 import { WebVTT } from 'vtt.js';
 
@@ -203,8 +203,8 @@ const VideoPlayer: Component<VideoPlayerProps> = () => { // 3. 移除 props
 
   return (
     <div style={{ position: 'relative' }}>
-      <h2>Video Player</h2>
-      <Show when={videoUrl()} fallback={<p>No video selected</p>}>
+      <h2>{t('videoPlayer.title')}</h2>
+      <Show when={videoUrl()} fallback={<p>{t('videoPlayer.noVideo')}</p>}>
         <div style={{ position: 'relative' }}>
           <video
             ref={videoRef}
@@ -274,10 +274,10 @@ const VideoPlayer: Component<VideoPlayerProps> = () => { // 3. 移除 props
         </div>
         
         <div>
-          <button onClick={togglePlay}>{isPlaying() ? 'Pause' : 'Play'}</button>
+          <button onClick={togglePlay}>{isPlaying() ? t('videoPlayer.pause') : t('videoPlayer.play')}</button>
           <Show when={cues().length > 0}>
             <button onClick={() => setShowSubtitles(!showSubtitles())}>
-              {showSubtitles() ? 'Hide' : 'Show'} Subtitles
+              {showSubtitles() ? t('videoPlayer.hideSubtitles') : t('videoPlayer.showSubtitles')}
             </button>
           </Show>
           <span>{formattedCurrentTime()} / {formattedDuration()}</span>

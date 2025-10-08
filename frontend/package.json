@@ -15,10 +15,15 @@
     "vite-plugin-solid": "^2.11.9"
   },
   "dependencies": {
+    "@tailwindcss/vite": "^4.1.14",
+    "i18next": "^25.5.3",
+    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-http-backend": "^3.0.2",
     "markmap-lib": "^0.18.12",
     "markmap-view": "^0.18.12",
     "socket.io-client": "^4.8.1",
     "solid-js": "^1.9.9",
+    "tailwindcss": "^4.1.14",
     "vtt.js": "^0.13.0"
   }
 }

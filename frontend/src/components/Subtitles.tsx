@@ -1,6 +1,6 @@
 import { Component, createSignal, onCleanup, createEffect } from 'solid-js';
 import { io, Socket } from 'socket.io-client';
-import { setVideoUrl, setCues, Cue } from '../store';
+import { setVideoUrl, setCues, Cue, t } from '../store';
 // @ts-ignore
 import { WebVTT } from 'vtt.js';
 
@@ -84,7 +84,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
         const formData = new FormData();
         formData.append('file', fileToUpload);
 
-        setMessage('正在上传文件...');
+        setMessage(t('subtitles.messages.uploading'));
         fetch('http://127.0.0.1:5000/upload', {
           method: 'POST',
           body: formData,
@@ -92,14 +92,14 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
         .then(response => response.json())
         .then(uploadData => {
           if (uploadData.message) {
-            setMessage(uploadData.message);
+            setMessage(uploadData.message); // Assuming server sends back a translated message key or plain text
           } else {
-            setMessage(`上传失败: ${uploadData.error || '未知错误'}`);
+            setMessage(t('subtitles.messages.uploadFailed', { error: uploadData.error || t('subtitles.messages.unknownError') }));
             disconnectSocket();
           }
         })
         .catch(uploadError => {
-          setMessage(`上传出错: ${uploadError}`);
+          setMessage(t('subtitles.messages.uploadError', { error: uploadError }));
           disconnectSocket();
         });
       }
@@ -142,7 +142,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
       clearTimeout(debounceTimer); // 立即执行最后一次更新，确保最终字幕被渲染
 
 
-      setMessage('字幕加载完成，正在请求摘要...');
+      setMessage(t('subtitles.messages.subtitlesLoadedRequestingSummary'));
       disconnectSocket(); // 任务完成，断开连接
 
       // 自动请求摘要
@@ -155,14 +155,14 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
         if (summaryResponse.ok) {
           const summaryData = await summaryResponse.json();
           props.onSummaryUpdate(summaryData.summary);
-          setMessage('字幕与摘要加载成功！');
+          setMessage(t('subtitles.messages.subtitlesAndSummaryLoaded'));
         } else {
           const errorData = await summaryResponse.json();
-          setMessage(`获取摘要失败: ${errorData.error || '未知错误'}`);
+          setMessage(t('subtitles.messages.summaryFailed', { error: errorData.error || t('subtitles.messages.unknownError') }));
           props.onSummaryUpdate('');
         }
       } catch (summaryError) {
-        setMessage(`请求摘要出错: ${summaryError}`);
+        setMessage(t('subtitles.messages.summaryError', { error: summaryError }));
         props.onSummaryUpdate('');
       }
     });
@@ -170,7 +170,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
     socket.on('transcription_error', (data: any) => {
       // 使用原始文件名进行精确匹配
       if (data.original_filename !== selectedFile()?.name) return;
-      setMessage(`处理出错: ${data.message}`);
+      setMessage(t('subtitles.messages.processingError', { message: data.message }));
       disconnectSocket();
     });
   };
@@ -198,7 +198,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
 
     // --- 3. Pre-upload 检查 ---
     try {
-      setMessage('正在检查现有字幕...');
+      setMessage(t('subtitles.messages.checkingSubtitles'));
       const preUploadResponse = await fetch('http://127.0.0.1:5000/pre-upload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -207,7 +207,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
 
       if (preUploadResponse.status === 200) {
         const data = await preUploadResponse.json();
-        setMessage('字幕加载成功，正在请求摘要...');
+        setMessage(t('subtitles.messages.subtitlesLoadedRequestingSummary'));
         
         const vttContent = data.subtitles;
         const parsedCues = await parseVTT(vttContent);
@@ -240,28 +240,28 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
           if (summaryResponse.ok) {
             const summaryData = await summaryResponse.json();
             props.onSummaryUpdate(summaryData.summary);
-            setMessage('字幕与摘要加载成功！');
+            setMessage(t('subtitles.messages.subtitlesAndSummaryLoaded'));
           } else {
             const errorData = await summaryResponse.json();
-            setMessage(`获取摘要失败: ${errorData.error || '未知错误'}`);
+            setMessage(t('subtitles.messages.summaryFailed', { error: errorData.error || t('subtitles.messages.unknownError') }));
           }
         } catch (summaryError) {
-          setMessage(`请求摘要出错: ${summaryError}`);
+          setMessage(t('subtitles.messages.summaryError', { error: summaryError }));
         }
         return; // 任务完成，停止执行
       }
       
       if (preUploadResponse.status === 204) {
         // --- 2. 如果字幕不存在，则连接 socket 并触发上传 ---
-        setMessage('未找到现有字幕，准备上传...');
+        setMessage(t('subtitles.messages.noSubtitlesFound'));
         connectAndListen(file); // 传入文件，在连接成功后上传
       } else {
         const errorData = await preUploadResponse.json();
-        setMessage(`检查失败: ${errorData.error || '未知错误'}`);
+        setMessage(t('subtitles.messages.checkFailed', { error: errorData.error || t('subtitles.messages.unknownError') }));
       }
 
     } catch (error) {
-      setMessage(`请求出错: ${error}`);
+      setMessage(t('subtitles.messages.requestError', { error: error }));
       disconnectSocket();
     }
   };
@@ -271,7 +271,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
 
   return (
     <div>
-      <h3>Subtitles</h3>
+      <h3>{t('subtitles.title')}</h3>
       {/* <textarea
         value={formatSegmentsToVTT(segments())}
         onInput={(e) => {
@@ -283,7 +283,7 @@ const Subtitles: Component<SubtitlesProps> = (props) => {
         readOnly // 推荐设为只读，因为整合逻辑在后台处理
       /> */}
       <div>
-        <label for="video-upload">Upload Video(s):</label>
+        <label for="video-upload">{t('subtitles.uploadLabel')}</label>
         <input type="file" id="video-upload" name="video-upload" onChange={handleFileChange} />
         {/* 移除了上传按钮 */}
         {message() && <p>{message()}</p>}

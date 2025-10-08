@@ -1,0 +1,33 @@
+{
+  "videoPlayer": {
+    "title": "Video Player",
+    "noVideo": "No video selected",
+    "play": "Play",
+    "pause": "Pause",
+    "hideSubtitles": "Hide Subtitles",
+    "showSubtitles": "Show Subtitles"
+  },
+  "subtitles": {
+    "title": "Subtitles",
+    "uploadLabel": "Upload Video(s):",
+    "messages": {
+      "uploading": "Uploading file...",
+      "uploadFailed": "Upload failed: {{error}}",
+      "uploadError": "Upload error: {{error}}",
+      "subtitlesLoadedRequestingSummary": "Subtitles loaded, requesting summary...",
+      "subtitlesAndSummaryLoaded": "Subtitles and summary loaded successfully!",
+      "summaryFailed": "Failed to get summary: {{error}}",
+      "summaryError": "Error requesting summary: {{error}}",
+      "processingError": "Processing error: {{message}}",
+      "checkingSubtitles": "Checking for existing subtitles...",
+      "noSubtitlesFound": "No existing subtitles found, preparing to upload...",
+      "checkFailed": "Check failed: {{error}}",
+      "requestError": "Request error: {{error}}",
+      "unknownError": "Unknown error"
+    }
+  },
+  "summary": {
+    "title": "Video Summary",
+    "fallback": "Summary content will go here once a video is processed."
+  }
+}

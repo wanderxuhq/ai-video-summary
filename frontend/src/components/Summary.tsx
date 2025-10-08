@@ -1,6 +1,7 @@
 import { Component, Show, onCleanup, createSignal, createEffect } from 'solid-js';
 import { Transformer } from 'markmap-lib';
 import { Markmap } from 'markmap-view';
+import { t } from '../store';
 
 export interface SummaryApi {
   renderSummary: (markdown: string) => void;
@@ -50,10 +51,10 @@ const Summary: Component<SummaryProps> = (props) => {
 
   return (
     <div style={{ position: 'absolute', top: '0', left: '0', width: '100%', height: '100%', display: 'flex', 'flex-direction': 'column' }}>
-      <h3>Video Summary</h3>
+      <h3>{t('summary.title')}</h3>
       <Show
         when={markdown()}
-        fallback={<p>Summary content will go here once a video is processed.</p>}
+        fallback={<p>{t('summary.fallback')}</p>}
       >
         <svg ref={svgRef} style={{ width: '100%', 'flex-grow': 1 }} />
       </Show>

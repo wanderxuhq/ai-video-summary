@@ -1,6 +1,7 @@
 /* @refresh reload */
 import { render } from 'solid-js/web';
 
+import './i18n'; // Import i18n configuration
 import App from './App';
 
 const root = document.getElementById('root');
