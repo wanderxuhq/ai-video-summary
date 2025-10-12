@@ -28,6 +28,11 @@
   },
   "summary": {
     "title": "视频摘要",
-    "fallback": "视频处理完毕后，摘要内容将显示在此处。"
+    "fallback": "视频处理完毕后，摘要内容将显示在此处。",
+    "tabs": {
+      "mindmap": "思维导图",
+      "markdownView": "Markdown 查看",
+      "markdownSource": "Markdown 原文"
+    }
   }
 }

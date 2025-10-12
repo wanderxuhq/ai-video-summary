@@ -28,6 +28,11 @@
   },
   "summary": {
     "title": "Video Summary",
-    "fallback": "Summary content will go here once a video is processed."
+    "fallback": "Summary content will go here once a video is processed.",
+    "tabs": {
+      "mindmap": "Mind Map",
+      "markdownView": "Markdown View",
+      "markdownSource": "Markdown Source"
+    }
   }
 }

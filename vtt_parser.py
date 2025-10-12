@@ -75,6 +75,6 @@ def process_vtt_file(input_path, output_path):
 
 if __name__ == '__main__':
     # Example usage:
-    input_file = '01.0101--copy.vtt'
+    input_file = '04.0104--.vtt'
     output_file = 'formatted_subtitles.txt'
     process_vtt_file(input_file, output_file)
