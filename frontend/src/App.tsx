@@ -9,10 +9,6 @@ const App: Component = () => {
 
   const handleSummaryUpdate = (content: string) => {
     summaryApi?.renderSummary(content);
-    // Use a short timeout to ensure the content has been rendered before fitting.
-    setTimeout(() => {
-      summaryApi?.fit();
-    }, 100);
   };
 
   return (

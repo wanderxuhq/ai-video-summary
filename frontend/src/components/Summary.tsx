@@ -1,12 +1,12 @@
-import { Component, Show, onCleanup, createSignal, createEffect } from 'solid-js';
-import { Transformer } from 'markmap-lib';
-import { Markmap } from 'markmap-view';
+import { Component, Show, createSignal, createEffect } from 'solid-js';
 import { marked } from 'marked';
 import { t } from '../store';
+import MindmapView from './MindmapView';
+import MarkdownView from './MarkdownView';
+import MarkdownSourceView from './MarkdownSourceView';
 
 export interface SummaryApi {
   renderSummary: (markdown: string) => void;
-  fit: () => void;
 }
 
 interface SummaryProps {
@@ -14,19 +14,15 @@ interface SummaryProps {
 }
 
 const Summary: Component<SummaryProps> = (props) => {
-  let svgRef: SVGSVGElement | undefined;
-  let markmap: Markmap | undefined;
   const [markdown, setMarkdown] = createSignal('');
   const [activeTab, setActiveTab] = createSignal('mindmap');
   const [htmlContent, setHtmlContent] = createSignal('');
+  const [summaryVersion, setSummaryVersion] = createSignal(0);
 
-  // Expose the render function via ref
   props.ref({
     renderSummary: (newMarkdown: string) => {
       setMarkdown(newMarkdown);
-    },
-    fit: () => {
-      markmap?.fit();
+      setSummaryVersion(v => v + 1); // Increment version to force re-creation
     },
   });
 
@@ -37,37 +33,6 @@ const Summary: Component<SummaryProps> = (props) => {
     } else {
       setHtmlContent('');
     }
-  });
-
-  createEffect((prevMarkdown) => {
-    const currentMarkdown = markdown();
-
-    // Only run logic if markdown content has actually changed
-    if (prevMarkdown === currentMarkdown) {
-      return prevMarkdown;
-    }
-
-    // Create instance if it doesn't exist
-    if (svgRef && !markmap) {
-      // autoFit should be false to prevent re-fitting on tab switch.
-      // Fitting is controlled manually by the parent component.
-      markmap = Markmap.create(svgRef, { autoFit: false });
-    }
-
-    // Update data when markdown changes
-    if (markmap && currentMarkdown) {
-      const transformer = new Transformer();
-      const { root } = transformer.transform(currentMarkdown);
-      markmap.setData(root);
-    } else if (markmap) {
-      markmap.setData(); // Clear the markmap if markdown is empty
-    }
-
-    return currentMarkdown;
-  }, '');
-
-  onCleanup(() => {
-    markmap?.destroy();
   });
 
   const tabStyle = (tabName: string) => ({
@@ -91,12 +56,14 @@ const Summary: Component<SummaryProps> = (props) => {
           fallback={<p>{t('summary.fallback')}</p>}
         >
           <div style={{ display: activeTab() === 'mindmap' ? 'block' : 'none', width: '100%', height: '100%' }}>
-            <svg ref={svgRef} style={{ width: '100%', height: '100%' }} />
+            <MindmapView markdown={markdown()} isVisible={activeTab() === 'mindmap'} />
           </div>
-          <div style={{ display: activeTab() === 'markdownView' ? 'block' : 'none' }} innerHTML={htmlContent()} />
-          <pre style={{ display: activeTab() === 'markdownSource' ? 'block' : 'none', 'white-space': 'pre-wrap', 'word-wrap': 'break-word' }}>
-            {markdown()}
-          </pre>
+          <div style={{ display: activeTab() === 'markdownView' ? 'block' : 'none' }}>
+            <MarkdownView htmlContent={htmlContent()} />
+          </div>
+          <div style={{ display: activeTab() === 'markdownSource' ? 'block' : 'none' }}>
+            <MarkdownSourceView markdown={markdown()} />
+          </div>
         </Show>
       </div>
     </div>

@@ -11,6 +11,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/d3-zoom": "^3.0.8",
     "vite": "^7.1.9",
     "vite-plugin-solid": "^2.11.9"
   },
